@@ -1,0 +1,10 @@
+C:\Users\abdul\source\repos\BeyondInsight\bin\Debug\netstandard2.1\BeyondInsight.deps.json
+C:\Users\abdul\source\repos\BeyondInsight\bin\Debug\netstandard2.1\BeyondInsight.dll
+C:\Users\abdul\source\repos\BeyondInsight\bin\Debug\netstandard2.1\BeyondInsight.pdb
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.csproj.AssemblyReference.cache
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.AssemblyInfoInputs.cache
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.AssemblyInfo.cs
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.csproj.CoreCompileInputs.cache
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.dll
+C:\Users\abdul\source\repos\BeyondInsight\obj\Debug\netstandard2.1\BeyondInsight.pdb
