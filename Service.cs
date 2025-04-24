@@ -39,7 +39,7 @@ namespace BeyondInsight
             {
                 if (response.Headers.TryGetValues("Set-Cookie", out var cookieValues))
                 {
-                    cookie = new List<string>(cookieValues)[0];
+                    cookie = String.Join("; ", cookieValues);
                 }
                 Utils.log("Logged Successfully", Microsoft.Extensions.Logging.LogLevel.Information);
                 return responseBody.ToString();
