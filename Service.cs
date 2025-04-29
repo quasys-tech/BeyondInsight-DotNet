@@ -28,7 +28,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             //request.Headers.Authorization = new AuthenticationHeaderValue(Settings.REQUEST_HEADERS);
             request.Content = new StringContent("", System.Text.Encoding.UTF8, "application/json");
 
@@ -81,7 +81,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
@@ -106,7 +106,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
@@ -131,7 +131,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
@@ -164,7 +164,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             request.Headers.Add("Cookie", cookie);
             //request.Headers.Authorization = new AuthenticationHeaderValue(Settings.REQUEST_HEADERS);
             request.Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
@@ -193,7 +193,7 @@ namespace BeyondInsight
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", Settings.REQUEST_HEADERS);
+            request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
             request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
