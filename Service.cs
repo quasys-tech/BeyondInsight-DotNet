@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -41,10 +38,10 @@ namespace BeyondInsight
                 {
                     cookie = String.Join("; ", cookieValues);
                 }
-                Utils.log("Logged Successfully", Microsoft.Extensions.Logging.LogLevel.Information);
+                Utils.log("Logged Successfully", LogLevel.Information);
                 return responseBody.ToString();
             }
-            Utils.log("Error trying to sign app in: " + responseBody.ToString(), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log("Error trying to sign app in: " + responseBody.ToString(), LogLevel.Error);
             return null;
         }
 
@@ -54,6 +51,8 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent("", System.Text.Encoding.UTF8, "application/json");
@@ -61,10 +60,11 @@ namespace BeyondInsight
             String responseBody = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Utils.log("Logged Successfully", Microsoft.Extensions.Logging.LogLevel.Information);
+                Utils.log("Logged Successfully", LogLevel.Information);
+                cookie = "";
                 return true;
             }
-            Utils.log("signAppOut: Error trying to sign app out: ", Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log("signAppOut: Error trying to sign app out: ", LogLevel.Error);
             return false;
         }
 
@@ -78,21 +78,24 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
-            request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return responseBody.ToString();
             }
-            Utils.log("get_secret_by_path: Error trying to get secret by path:" + path + " and title " + title + ", response: " + responseBody.ToString(), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log("get_secret_by_path: Error trying to get secret by path:" + path + " and title " + title + ", response: " + responseBody.ToString(), LogLevel.Error);
             if (!signAppOut().Result)
             {
-                Utils.log("Eror trying to sign out!", Microsoft.Extensions.Logging.LogLevel.Error);
+                Utils.log("Eror trying to sign out!", LogLevel.Error);
             }
             return null;
         }
@@ -103,21 +106,23 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
-            request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return responseBody.ToString();
             }
-            Utils.log(string.Format("get_file_by_id: Error trying to get file by secret Id {0}: {1}", secretId, response.ToString()), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log(string.Format("get_file_by_id: Error trying to get file by secret Id {0}: {1}", secretId, response.ToString()), LogLevel.Error);
             if (!signAppOut().Result)
             {
-                Utils.log("Eror trying to sign out!", Microsoft.Extensions.Logging.LogLevel.Error);
+                Utils.log("Eror trying to sign out!", LogLevel.Error);
             }
             return null;
         }
@@ -128,21 +133,23 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
-            request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return responseBody.ToString();
             }
-            Utils.log(string.Format("getManagedAccounts: Error trying to get secret by system name: {0} and account name {1}, response: {2}", systemName, accountName, responseBody.ToString()), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log(string.Format("getManagedAccounts: Error trying to get secret by system name: {0} and account name {1}, response: {2}", systemName, accountName, responseBody.ToString()), LogLevel.Error);
             if (!signAppOut().Result)
             {
-                Utils.log("Eror trying to sign out!", Microsoft.Extensions.Logging.LogLevel.Error);
+                Utils.log("Eror trying to sign out!", LogLevel.Error);
             }
             return null;
         }
@@ -161,11 +168,12 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
-            request.Headers.Add("Cookie", cookie);
             //request.Headers.Authorization = new AuthenticationHeaderValue(Settings.REQUEST_HEADERS);
             request.Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
 
@@ -176,10 +184,10 @@ namespace BeyondInsight
             {
                 return responseBody.ToString();
             }
-            Utils.log(string.Format("create_request: Error trying to create request, payload: {0}, response: {1}", body, responseBody.ToString()), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log(string.Format("create_request: Error trying to create request, payload: {0}, response: {1}", body, responseBody.ToString()), LogLevel.Error);
             if (!signAppOut().Result)
             {
-                Utils.log("Eror trying to sign out!", Microsoft.Extensions.Logging.LogLevel.Error);
+                Utils.log("Eror trying to sign out!", LogLevel.Error);
             }
             return null;
         }
@@ -190,11 +198,12 @@ namespace BeyondInsight
             HttpClientHandler handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.TryAddWithoutValidation("Authorization", Settings.REQUEST_HEADERS);
-            request.Headers.Add("Cookie", cookie);
             HttpResponseMessage response = await client.SendAsync(request);
             String responseBody = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
@@ -202,10 +211,10 @@ namespace BeyondInsight
                 //return responseBody.ToString();
                 return Regex.Replace(responseBody, "^\"|\"$", "");
             }
-            Utils.log(string.Format("get_credential_by_request_id: Error trying to get credential by request id: {0}, response: {1}", requestID, responseBody.ToString()), Microsoft.Extensions.Logging.LogLevel.Error);
+            Utils.log(string.Format("get_credential_by_request_id: Error trying to get credential by request id: {0}, response: {1}", requestID, responseBody.ToString()), LogLevel.Error);
             if (!signAppOut().Result)
             {
-                Utils.log("Eror trying to sign out!", Microsoft.Extensions.Logging.LogLevel.Error);
+                Utils.log("Eror trying to sign out!", LogLevel.Error);
             }
             return null;
         }

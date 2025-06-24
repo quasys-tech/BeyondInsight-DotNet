@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BeyondInsight
 {
-    internal class Settings
+    public class Settings
     {
         public static String BT_API_URL = Environment.GetEnvironmentVariable("BT_API_URL");
         public static String REQUEST_HEADERS = "PS-Auth key=" + Environment.GetEnvironmentVariable("BT_API_KEY");

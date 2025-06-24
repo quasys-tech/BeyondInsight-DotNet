@@ -1,22 +1,19 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Newtonsoft.Json.Linq;
+using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Text.Json.Nodes;
 
 namespace BeyondInsight
 {
     internal class Utils
     {
-        private static ILogger _logger;
+
         static Utils()
         {
-            using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
-            _logger = loggerFactory.CreateLogger<Utils>();
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Trace()
+            .CreateLogger();
         }
 
         public static void log(String message, LogLevel level)
@@ -24,64 +21,63 @@ namespace BeyondInsight
             switch (level)
             {
                 case LogLevel.Trace:
-                    _logger.LogTrace(message);
-                    break;
                 case LogLevel.Debug:
-                    _logger.LogDebug(message);
+                    Log.Debug(message);
                     break;
                 case LogLevel.Information:
-                    _logger.LogInformation(message);
+                    Log.Information(message);
                     break;
                 case LogLevel.Warning:
-                    _logger.LogWarning(message);
+                    Log.Warning(message);
                     break;
                 case LogLevel.Error:
-                    _logger.LogError(message);
+                    Log.Error(message);
                     break;
                 case LogLevel.Critical:
-                    _logger.LogCritical(message);
+                    Log.Fatal(message);
                     break;
                 default:
-                    _logger.LogInformation(message);
+                    Log.Information(message);
                     break;
             }
         }
 
-        public static JsonObject createSecretFile(JsonObject secret, String content)
+        public static JObject createSecretFile(JObject secret, String content)
         {
-            String path = secret["FolderPath"].GetValue<string>().Replace("\\", "/") + "/" + secret["Title"].GetValue<string>();
+            String path = secret.Value<string>("FolderPath").Replace("\\", "/") + "/" + secret.Value<string>("Title");
             String filePath = createFolders(path);
             File.WriteAllText(filePath, content + "\n");
 
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.Add("Password", secret["Password"]?.GetValue<string>() ?? "");
-            jsonObject.Add("Title", secret["Title"]?.GetValue<string>());
-            jsonObject.Add("Username", secret["Username"]?.GetValue<string>() ?? "");
-            jsonObject.Add("FolderPath", secret["FolderPath"]?.GetValue<string>());
+            JObject jsonObject = new JObject();
+            jsonObject.Add("Password", secret.Value<string>("Password") ?? "");
+            jsonObject.Add("Title", secret.Value<string>("Title"));
+            jsonObject.Add("Username", secret.Value<string>("Username") ?? "");
+            jsonObject.Add("FolderPath", secret.Value<string>("FolderPath"));
             jsonObject.Add("FilePath", filePath);
             jsonObject.Add("IsFileSecret", true);
             return jsonObject;
         }
 
-        public static JsonObject convertSecretToObject(JsonObject secret)
+        public static JObject convertSecretToObject(JObject secret)
         {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.Add("Password", secret["Password"]?.GetValue<string>());
-            jsonObject.Add("Title", secret["Title"]?.GetValue<string>());
-            jsonObject.Add("Username", secret["Username"]?.GetValue<string>() ?? "");
-            jsonObject.Add("FolderPath", secret["FolderPath"]?.GetValue<string>());
+            JObject jsonObject = new JObject();
+            jsonObject.Add("Password", secret.Value<string>("Password"));
+            jsonObject.Add("Title", secret.Value<string>("Title"));
+            jsonObject.Add("Username", secret.Value<string>("Username") ?? "");
+            jsonObject.Add("FolderPath", secret.Value<string>("FolderPath"));
             jsonObject.Add("FilePath", "");
             jsonObject.Add("IsFileSecret", false);
             return jsonObject;
         }
+        
 
-        public static JsonObject convertManagedAccountToObject(JsonObject secret, String content)
+        public static JObject convertManagedAccountToObject(JObject secret, String content)
         {
-            JsonObject jsonObject = new JsonObject();
+            JObject jsonObject = new JObject();
             jsonObject.Add("Password", content);
-            jsonObject.Add("SystemName", secret["SystemName"]?.GetValue<string>());
-            jsonObject.Add("AccountName", secret["AccountName"]?.GetValue<string>());
-            jsonObject.Add("FolderPath", secret["SystemName"]?.GetValue<string>() + "/" + secret["AccountName"]?.GetValue<string>());
+            jsonObject.Add("SystemName", secret.Value<string>("SystemName"));
+            jsonObject.Add("AccountName", secret.Value<string>("AccountName"));
+            jsonObject.Add("FolderPath", secret.Value<string>("SystemName") + "/" + secret.Value<string>("AccountName"));
             jsonObject.Add("IsFileSecret", false);
             return jsonObject;
         }
