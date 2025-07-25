@@ -5,7 +5,8 @@
 	<LangVersion>8.0</LangVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>BeyondInsight</PackageId>
-	<Version>1.1.4</Version>
+	<Version>1.0.0.2</Version>
+	<AssemblyVersion>1.0.0.2</AssemblyVersion>
 	<Authors>Quasys</Authors>
 	<Description>BeyondTrust .Net Library</Description>
   </PropertyGroup>
