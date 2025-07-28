@@ -11,17 +11,34 @@ namespace BeyondInsight
     {
         private static String cookie;
         
-        /*private static void createHttpClient()
+        private static HttpClientHandler createHttpClientHandler()
         {
+            var certBase64 = Settings.BT_CLIENT_CERTIFICATE.Replace("-----BEGIN CERTIFICATE-----", "")
+                .Replace("-----END CERTIFICATE-----", "")
+                .Replace("\n", "")
+                .Replace("\r", "")
+                .Trim();
+            var certBytes = Convert.FromBase64String(certBase64);
+            var trustedCert = new X509Certificate2(certBytes);
 
-        }*/
+            var handler = new HttpClientHandler();
+
+            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
+            {
+                var serverCert = new X509Certificate2(cert);
+                return serverCert.Thumbprint == trustedCert.Thumbprint;
+            };
+            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+            handler.CookieContainer = new CookieContainer();
+            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            return handler;
+        }
+        
         public static async Task<string> SignAppIn()
         {
             String url = Settings.BT_API_URL + "/Auth/SignAppin";
             cookie = "";
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
+            HttpClientHandler handler = = createHttpClientHandler();
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Headers.Add("Accept", "application/json");
@@ -48,11 +65,7 @@ namespace BeyondInsight
         public static async Task<bool> signAppOut()
         {
             String url = Settings.BT_API_URL + "/Auth/Signout";
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = new = createHttpClientHandler();
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent("", System.Text.Encoding.UTF8, "application/json");
@@ -75,12 +88,7 @@ namespace BeyondInsight
             {
                 url = Settings.BT_API_URL + "/secrets-safe/secrets" + "?title=" + title + "&path=" + path + "&separator=" + separator;
             }
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = = createHttpClientHandler();
 
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -103,11 +111,7 @@ namespace BeyondInsight
         public static async Task<String> getSecretFilebyId(String secretId)
         {
             String url = Settings.BT_API_URL + "/secrets-safe/secrets/" + secretId + "/file/download";
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = = createHttpClientHandler();
 
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -130,11 +134,7 @@ namespace BeyondInsight
         public static async Task<String> getManagedAccounts(String systemName, String accountName)
         {
             String url = Settings.BT_API_URL + "/ManagedAccounts?systemName=" + systemName + "&accountName=" + accountName;
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = = createHttpClientHandler();
 
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -165,11 +165,7 @@ namespace BeyondInsight
     ""Reason"": ""Test"",
     ""ConflictOption"": ""reuse""
 }}";
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = = createHttpClientHandler();
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Headers.Add("Accept", "application/json");
@@ -195,11 +191,7 @@ namespace BeyondInsight
         public static async Task<String> getCredentialByRequestID(String requestID)
         {
             String url = Settings.BT_API_URL + "/Credentials/" + requestID;
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls;
-            handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
+            HttpClientHandler handler = = createHttpClientHandler();
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
