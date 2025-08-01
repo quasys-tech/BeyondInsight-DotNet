@@ -33,6 +33,7 @@ namespace BeyondInsight
             handler.CookieContainer.SetCookies(new Uri(Settings.BT_API_URL), cookie);
             return handler;
         }
+
         public static async Task<string> SignAppIn()
         {
             String url = Settings.BT_API_URL + "/Auth/SignAppin";
@@ -87,8 +88,8 @@ namespace BeyondInsight
             {
                 url = Settings.BT_API_URL + "/secrets-safe/secrets" + "?title=" + title + "&path=" + path + "&separator=" + separator;
             }
-            HttpClientHandler handler = createHttpClientHandler();
 
+            HttpClientHandler handler = createHttpClientHandler();
 
             HttpClient client = new HttpClient(handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -111,6 +112,7 @@ namespace BeyondInsight
         public static async Task<String> getSecretFilebyId(String secretId)
         {
             String url = Settings.BT_API_URL + "/secrets-safe/secrets/" + secretId + "/file/download";
+
             HttpClientHandler handler = createHttpClientHandler();
 
             HttpClient client = new HttpClient(handler);
