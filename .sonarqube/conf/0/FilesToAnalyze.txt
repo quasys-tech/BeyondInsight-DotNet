@@ -1,0 +1,7 @@
+﻿C:\Users\abdul\source\repos\BeyondInsight\BeyondInsight.cs
+C:\Users\abdul\source\repos\BeyondInsight\LogLevel.cs
+C:\Users\abdul\source\repos\BeyondInsight\Service.cs
+C:\Users\abdul\source\repos\BeyondInsight\Settings.cs
+C:\Users\abdul\source\repos\BeyondInsight\Utils.cs
+C:\Users\abdul\source\repos\BeyondInsight\.gitignore
+C:\Users\abdul\source\repos\BeyondInsight\README.md

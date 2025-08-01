@@ -1,0 +1,6 @@
+projectKey=beyonddotnet2
+serverUrl=http://linux.quasys.local:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://linux.quasys.local:9000/dashboard?id=beyonddotnet2
+ceTaskId=4312697b-6d40-4fae-a557-2fc9b918b4b3
+ceTaskUrl=http://linux.quasys.local:9000/api/ce/task?id=4312697b-6d40-4fae-a557-2fc9b918b4b3
