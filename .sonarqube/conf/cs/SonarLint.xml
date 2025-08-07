@@ -2,6 +2,10 @@
 <AnalysisInput>
   <Settings>
     <Setting>
+      <Key>sonar.cs.opencover.reportsPaths</Key>
+      <Value>C:/Users/abdul/source/repos/BeyondInsight/Beyond.Tests/TestResults/coverage.opencover.xml</Value>
+    </Setting>
+    <Setting>
       <Key>sonar.cs.ignoreHeaderComments</Key>
       <Value>true</Value>
     </Setting>

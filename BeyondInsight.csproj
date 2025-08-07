@@ -16,6 +16,7 @@
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.Trace" Version="4.0.0" />
+	  <Compile Remove="Beyond.Tests\**\*.cs" />
   </ItemGroup>
 
 </Project>

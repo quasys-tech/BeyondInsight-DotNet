@@ -5,7 +5,7 @@ using System.IO;
 
 namespace BeyondInsight
 {
-    internal class Utils
+    public class Utils
     {
 
         static Utils()

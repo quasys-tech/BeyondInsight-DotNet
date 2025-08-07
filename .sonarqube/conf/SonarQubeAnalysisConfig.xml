@@ -10,7 +10,7 @@
   <HasBeginStepCommandLineTruststorePassword>false</HasBeginStepCommandLineTruststorePassword>
   <SonarQubeHostUrl>http://linux.quasys.local:9000</SonarQubeHostUrl>
   <SonarQubeVersion>10.6.0.92116</SonarQubeVersion>
-  <SonarProjectKey>beyonddotnet2</SonarProjectKey>
+  <SonarProjectKey>beyonddotnet8</SonarProjectKey>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />
@@ -138,10 +138,12 @@
     <Property Name="sonaranalyzer-vbnet.pluginKey">vbnet</Property>
     <Property Name="sonar.updatecenter.url">https://downloads.sonarsource.com/sonarqube/update/update-center.properties</Property>
     <Property Name="sonar.core.id">147B411E-AZDaSXg69N7z0Osz9-GE</Property>
-    <Property Name="sonar.core.startTime">7/28/2025 2:46:53 PM</Property>
+    <Property Name="sonar.core.startTime">8/7/2025 1:26:14 PM</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://linux.quasys.local:9000</Property>
+    <Property Name="sonar.cs.opencover.reportsPaths">C:/Users/abdul/source/repos/BeyondInsight/Beyond.Tests/TestResults/coverage.opencover.xml</Property>
+    <Property Name="sonar.exclusions">C:/Users/abdul/source/repos/BeyondInsight/Beyond.Tests/TestResults/coverage.opencover.xml</Property>
   </LocalSettings>
   <ScannerOptsSettings />
   <AnalyzersSettings>
@@ -156,7 +158,6 @@
             <Path>C:\Users\abdul\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CFG.dll</Path>
             <Path>C:\Users\abdul\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.CSharp.dll</Path>
             <Path>C:\Users\abdul\AppData\Local\Temp\.sonarqube\resources\0\SonarAnalyzer.dll</Path>
-            <Path>C:\Users\abdul\AppData\Local\Temp\.sonarqube\resources\0\THIRD-PARTY-NOTICES.txt</Path>
           </AssemblyPaths>
         </AnalyzerPlugin>
       </AnalyzerPlugins>
